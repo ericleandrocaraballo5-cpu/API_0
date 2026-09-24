@@ -1,2 +1,529 @@
-# API_0
-API AGROMOVEX
+<h1>Github pages API_0</h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agromovex — Del campo pal mundo</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --verde-monte:#2F4B3C;
+    --verde-hoja:#5B8C5A;
+    --tierra:#7A4B32;
+    --panela:#C68A2E;
+    --papel:#F6F1E4;
+    --tinta:#23241F;
+    --borde: rgba(35,36,31,0.15);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--papel);
+    color:var(--tinta);
+    font-family:'Work Sans', sans-serif;
+    line-height:1.5;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces', serif;
+    margin:0 0 .3em 0;
+    font-weight:600;
+    color:var(--verde-monte);
+  }
+  a{color:inherit;}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 24px;}
+  :focus-visible{outline:3px solid var(--panela); outline-offset:2px;}
+
+  /* NAV */
+  nav{
+    position:sticky; top:0; z-index:40;
+    background:var(--papel);
+    border-bottom:1px solid var(--borde);
+  }
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;}
+  .brand{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem;text-decoration:none;color:var(--verde-monte);}
+  .navlinks{display:flex;gap:28px;list-style:none;margin:0;padding:0;}
+  .navlinks a{text-decoration:none;font-size:.95rem;font-weight:500;color:var(--tinta);}
+  .navlinks a:hover{color:var(--verde-hoja);}
+  .navtoggle{display:none;background:none;border:1px solid var(--borde);border-radius:6px;padding:6px 10px;font-size:1.1rem;}
+  #cartBtn{
+    background:var(--verde-monte);color:#fff;border:none;border-radius:999px;
+    padding:9px 18px;font-weight:600;cursor:pointer;font-size:.9rem;
+  }
+  @media(max-width:760px){
+    .navlinks{
+      position:absolute; top:64px; left:0; right:0; background:var(--papel);
+      flex-direction:column; padding:12px 24px 20px; gap:14px; border-bottom:1px solid var(--borde);
+      display:none;
+    }
+    .navlinks.open{display:flex;}
+    .navtoggle{display:inline-block;}
+  }
+
+  /* HERO */
+  header#hero{padding:72px 0 56px;border-bottom:1px solid var(--borde);}
+  header#hero .wrap{display:grid;grid-template-columns:1.3fr 1fr;gap:48px;align-items:end;}
+  header#hero h1{font-size:clamp(2.4rem,5vw,3.6rem);line-height:1.05;max-width:11ch;}
+  header#hero p.lead{font-size:1.1rem;max-width:46ch;color:#3d3d34;}
+  .stat{border-top:2px solid var(--tinta);padding-top:10px;}
+  .stat .n{font-family:'Fraunces',serif;font-size:2.6rem;font-weight:700;color:var(--panela);display:block;}
+  .stat .l{font-size:.85rem;color:#5b5b50;}
+  .btn-primary{
+    display:inline-block;margin-top:22px;background:var(--verde-monte);color:#fff;text-decoration:none;
+    padding:12px 22px;border-radius:6px;font-weight:600;
+  }
+  @media(max-width:760px){header#hero .wrap{grid-template-columns:1fr;}}
+
+  /* SECTION TITLES */
+  section{padding:56px 0;border-bottom:1px solid var(--borde);}
+  .section-head{margin-bottom:30px;max-width:60ch;}
+  .section-head p{color:#4a4a40;}
+
+  /* CATALOGO */
+  .cat-tabs{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap;}
+  .cat-tabs button{
+    background:none;border:1px solid var(--borde);border-radius:999px;padding:7px 16px;
+    font-family:'Work Sans';font-size:.88rem;cursor:pointer;color:var(--tinta);
+  }
+  .cat-tabs button.active{background:var(--verde-monte);color:#fff;border-color:var(--verde-monte);}
+  .catalog{border-top:1px solid var(--borde);}
+  .item{
+    display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:18px;
+    padding:16px 0;border-bottom:1px solid var(--borde);
+  }
+  .item .ico{font-size:1.5rem;width:34px;text-align:center;}
+  .item .name{font-weight:600;}
+  .item .unit{font-size:.8rem;color:#6b6b60;}
+  .item .price{font-family:'Fraunces',serif;font-weight:600;color:var(--verde-monte);white-space:nowrap;}
+  .qty{display:flex;align-items:center;gap:8px;}
+  .qty button{
+    width:28px;height:28px;border-radius:6px;border:1px solid var(--borde);background:#fff;cursor:pointer;font-size:1rem;
+  }
+  .qty span{min-width:18px;text-align:center;font-weight:600;}
+  .add-btn{
+    background:var(--panela);color:#fff;border:none;border-radius:6px;padding:8px 14px;
+    font-weight:600;cursor:pointer;font-size:.85rem;
+  }
+  .add-btn[disabled]{opacity:.4;cursor:not-allowed;}
+  @media(max-width:640px){
+    .item{grid-template-columns:auto 1fr;row-gap:10px;}
+    .item .price{grid-column:2;justify-self:start;}
+    .qty{grid-column:1/-1;}
+    .add-btn{grid-column:1/-1;}
+  }
+
+  /* GALERIA */
+  .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px;}
+  .g-card{
+    aspect-ratio:4/3;border-radius:8px;display:flex;flex-direction:column;justify-content:flex-end;
+    padding:14px;color:#fff;font-weight:600;background:var(--verde-hoja);
+  }
+  .g-card span{font-size:1.7rem;display:block;margin-bottom:6px;}
+  .g-card.hidden{display:none;}
+
+  /* EQUIPO */
+  .team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;}
+  .team-card{border:1px solid var(--borde);border-radius:8px;padding:20px;background:#fff;}
+  .team-card .avatar{
+    width:52px;height:52px;border-radius:50%;background:var(--verde-monte);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:700;margin-bottom:12px;
+  }
+  .team-card h3{font-size:1.05rem;margin-bottom:2px;}
+  .team-card p{font-size:.85rem;color:#5b5b50;margin:0;}
+
+  /* CONTACTO */
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;}
+  form .field{margin-bottom:16px;}
+  label{display:block;font-size:.85rem;font-weight:600;margin-bottom:4px;}
+  input,textarea{
+    width:100%;padding:10px 12px;border:1px solid var(--borde);border-radius:6px;font-family:'Work Sans';font-size:.95rem;background:#fff;
+  }
+  input:invalid[data-touched="true"],textarea:invalid[data-touched="true"]{border-color:#b23b3b;}
+  .err{color:#b23b3b;font-size:.78rem;min-height:1.1em;display:block;margin-top:3px;}
+  button[type="submit"]{
+    background:var(--verde-monte);color:#fff;border:none;border-radius:6px;padding:11px 22px;font-weight:600;cursor:pointer;
+  }
+  #formOk{display:none;background:#e7f1e6;border:1px solid var(--verde-hoja);color:var(--verde-monte);padding:12px 14px;border-radius:6px;margin-top:14px;font-size:.9rem;}
+  .contact-info p{margin:4px 0;font-size:.92rem;}
+  .contact-info h3{font-size:1rem;margin-top:20px;}
+  @media(max-width:760px){.contact-grid{grid-template-columns:1fr;}}
+
+  footer{padding:32px 0;text-align:center;font-size:.85rem;color:#6b6b60;}
+
+  /* CARRITO */
+  #cartFab{
+    position:fixed;bottom:20px;right:20px;z-index:50;background:var(--panela);color:#fff;
+    border:none;border-radius:999px;padding:14px 20px;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,.2);
+    cursor:pointer;font-size:.95rem;
+  }
+  #cartDrawer{
+    position:fixed;top:0;right:-380px;width:340px;max-width:90vw;height:100%;background:#fff;z-index:60;
+    box-shadow:-8px 0 24px rgba(0,0,0,.15);transition:right .25s ease;display:flex;flex-direction:column;
+  }
+  #cartDrawer.open{right:0;}
+  #cartDrawer .head{padding:18px 20px;border-bottom:1px solid var(--borde);display:flex;justify-content:space-between;align-items:center;}
+  #cartDrawer .head h3{margin:0;}
+  #cartDrawer .close{background:none;border:none;font-size:1.3rem;cursor:pointer;}
+  #cartItems{flex:1;overflow-y:auto;padding:14px 20px;}
+  .cart-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--borde);font-size:.9rem;}
+  .cart-row .rm{background:none;border:none;color:#b23b3b;cursor:pointer;font-size:.8rem;}
+  #cartTotalWrap{padding:16px 20px;border-top:1px solid var(--borde);}
+  #cartTotal{font-family:'Fraunces',serif;font-weight:700;font-size:1.4rem;color:var(--verde-monte);}
+  #checkoutBtn{
+    width:100%;margin-top:12px;background:#25D366;color:#fff;border:none;border-radius:6px;padding:12px;
+    font-weight:700;cursor:pointer;font-size:.95rem;
+  }
+  #checkoutBtn[disabled]{background:#a9c9b3;cursor:not-allowed;}
+  #overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:55;display:none;
+  }
+  #overlay.open{display:block;}
+  .empty-msg{color:#6b6b60;font-size:.9rem;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="#hero" class="brand">Agromovex</a>
+    <button class="navtoggle" id="navToggle" aria-label="Abrir menú">☰</button>
+    <ul class="navlinks" id="navLinks">
+      <li><a href="#about">Conoce</a></li>
+      <li><a href="#catalogo">Catálogo</a></li>
+      <li><a href="#galeria">Galería</a></li>
+      <li><a href="#equipo">Equipo</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+    <button id="cartBtn">🧺 Pedido (<span id="cartCount">0</span>)</button>
+  </div>
+</nav>
+
+<header id="hero">
+  <div class="wrap">
+    <div>
+      <h1>Del campo pal mundo</h1>
+      <p class="lead">Agromovex conecta a familias campesinas de Ubalá, Cundinamarca, con compradores que quieren productos frescos y un precio justo para quien los cultiva.</p>
+      <a href="#catalogo" class="btn-primary">Ver catálogo y armar pedido</a>
+    </div>
+    <div class="stat">
+      <span class="n">11</span>
+      <span class="l">productos disponibles esta semana, directo del cultivo a tu pedido</span>
+    </div>
+  </div>
+</header>
+
+<div id="about">
+  <section class="wrap">
+    <div class="section-head">
+      <h2>Nuestro proyecto</h2>
+      <p>Agromovex nació de un grupo de jóvenes que crecieron cerca del campo y quisieron darle una vitrina digital a los productores de su vereda: un lugar donde puedan mostrar su cosecha y venderla directamente, sin intermediarios que se queden con el margen.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;">
+      <div>
+        <h3 style="font-size:1.05rem;">Lo que garantiza el campo</h3>
+        <p style="color:#4a4a40;font-size:.95rem;">Frutas, verduras, granos y tubérculos frescos en la mesa, previniendo la escasez y sosteniendo la economía de la vereda.</p>
+      </div>
+      <div>
+        <h3 style="font-size:1.05rem;">Lo que cuida el campo</h3>
+        <p style="color:#4a4a40;font-size:.95rem;">Las prácticas agroecológicas protegen el suelo de la erosión, retienen el agua y sostienen la biodiversidad de la región.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<section id="catalogo">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Catálogo</h2>
+      <p>Ajusta las cantidades en kilos y agrégalas a tu pedido. Al final, el pedido se envía por WhatsApp directamente al productor.</p>
+    </div>
+    <div class="cat-tabs" id="catTabs"></div>
+    <div class="catalog" id="catalogList"></div>
+  </div>
+</section>
+
+<section id="galeria">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Galería</h2>
+      <p>Un vistazo a lo bueno del campo. (Espacio reservado para las fotos reales de las fincas — aquí van marcadores mientras se cargan las imágenes.)</p>
+    </div>
+    <div class="cat-tabs" id="galTabs"></div>
+    <div class="gallery-grid" id="galleryGrid"></div>
+  </div>
+</section>
+
+<section id="equipo">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Conformación del equipo</h2>
+      <p>Un equipo pequeño, cercano al campo y con roles claros.</p>
+    </div>
+    <div class="team-grid">
+      <div class="team-card"><div class="avatar">SM</div><h3>Santiago Muete</h3><p>Director de ventas y Scrum Master</p></div>
+      <div class="team-card"><div class="avatar">EC</div><h3>Eric Caraballo</h3><p>CEO y programador</p></div>
+      <div class="team-card"><div class="avatar">FL</div><h3>Francisco Linares</h3><p>Director de compras y encargado de finanzas</p></div>
+      <div class="team-card"><div class="avatar">PS</div><h3>Paula Sandoval</h3><p>Logística</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="contacto">
+  <div class="wrap contact-grid">
+    <div>
+      <h2>Escríbenos</h2>
+      <p style="color:#4a4a40;">Lo que se cultiva con cariño y en comunidad es lo mejor. Cuéntanos qué necesitas.</p>
+      <form id="contactForm" novalidate>
+        <div class="field">
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" required minlength="2">
+          <span class="err" id="errNombre"></span>
+        </div>
+        <div class="field">
+          <label for="email">Correo</label>
+          <input type="email" id="email" required>
+          <span class="err" id="errEmail"></span>
+        </div>
+        <div class="field">
+          <label for="mensaje">Mensaje</label>
+          <textarea id="mensaje" rows="4" required minlength="5"></textarea>
+          <span class="err" id="errMensaje"></span>
+        </div>
+        <button type="submit">Enviar mensaje</button>
+        <div id="formOk">Gracias — tu mensaje quedó registrado en esta demo. En producción esto llegaría al correo o CRM de Agromovex.</div>
+      </form>
+    </div>
+    <div class="contact-info">
+      <h3>Dirección</h3>
+      <p>Diagonal 11 N.º 6-62, sector Sitio el Puerto</p>
+      <p>Ubalá, Cundinamarca</p>
+      <h3>Horario de atención</h3>
+      <p>Lunes a jueves: 10:00 a.m. – 5:00 p.m.</p>
+      <p>Viernes a domingo: 11:00 a.m. – 8:00 p.m.</p>
+      <h3>Contacto directo</h3>
+      <p>Teléfono: +57 317 252 3383</p>
+      <p>Correo: agromovexelmejor@gmail.com</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>© Del campo pal mundo — Agromovex, 2026</p>
+  </div>
+</footer>
+
+<div id="overlay"></div>
+<button id="cartFab">🧺 <span id="fabCount">0</span></button>
+<aside id="cartDrawer">
+  <div class="head">
+    <h3>Tu pedido</h3>
+    <button class="close" id="closeCart" aria-label="Cerrar">✕</button>
+  </div>
+  <div id="cartItems"><p class="empty-msg">Aún no has agregado productos.</p></div>
+  <div id="cartTotalWrap">
+    <div>Total: <span id="cartTotal">$0</span></div>
+    <button id="checkoutBtn" disabled>Enviar pedido por WhatsApp</button>
+  </div>
+</aside>
+
+<script>
+const PRODUCTS = [
+  {id:'cafe',      name:'Café',                     cat:'granos', price:23776, icon:'☕'},
+  {id:'aguacate',  name:'Aguacate',                  cat:'frutas', price:5000,  icon:'🥑'},
+  {id:'mora',      name:'Mora',                      cat:'frutas', price:6865,  icon:'🫐'},
+  {id:'tomate',    name:'Tomate de árbol',           cat:'frutas', price:5900,  icon:'🍅'},
+  {id:'uchuva',    name:'Uchuva',                    cat:'frutas', price:6000,  icon:'🟠'},
+  {id:'platano',   name:'Plátano Dominico Hartón',   cat:'granos', price:2050,  icon:'🍌'},
+  {id:'yuca',      name:'Yuca',                      cat:'granos', price:3000,  icon:'🥔'},
+  {id:'panela',    name:'Panela',                    cat:'granos', price:5000,  icon:'🍯'},
+  {id:'frijol',    name:'Fríjol',                    cat:'granos', price:9900,  icon:'🫘'},
+  {id:'lulo',      name:'Lulo',                      cat:'frutas', price:5645,  icon:'🍈'},
+  {id:'granadilla',name:'Granadilla',                cat:'frutas', price:10750, icon:'🟡'},
+];
+const GALLERY = [
+  {name:'Cosecha de café', cat:'granos', icon:'☕'},
+  {name:'Aguacates recién cortados', cat:'frutas', icon:'🥑'},
+  {name:'Cultivo de mora', cat:'frutas', icon:'🫐'},
+  {name:'Trapiche de panela', cat:'granos', icon:'🍯'},
+  {name:'Matas de plátano', cat:'granos', icon:'🍌'},
+  {name:'Cultivo de lulo', cat:'frutas', icon:'🍈'},
+];
+
+const cart = {}; // id -> qty
+const draftQty = {}; // id -> qty being adjusted before "add"
+PRODUCTS.forEach(p => draftQty[p.id] = 1);
+
+const money = n => '$' + n.toLocaleString('es-CO');
+
+function renderTabs(containerId, items, activeCat, onSelect){
+  const el = document.getElementById(containerId);
+  const cats = ['todos', ...new Set(items.map(i => i.cat))];
+  const labels = {todos:'Todos', frutas:'Frutas', granos:'Granos y tubérculos'};
+  el.innerHTML = cats.map(c =>
+    `<button data-cat="${c}" class="${c===activeCat?'active':''}">${labels[c]||c}</button>`
+  ).join('');
+  el.querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click', ()=> onSelect(btn.dataset.cat));
+  });
+}
+
+let catalogFilter = 'todos';
+function renderCatalog(){
+  renderTabs('catTabs', PRODUCTS, catalogFilter, cat=>{ catalogFilter = cat; renderCatalog(); });
+  const list = PRODUCTS.filter(p => catalogFilter==='todos' || p.cat===catalogFilter);
+  document.getElementById('catalogList').innerHTML = list.map(p => `
+    <div class="item">
+      <div class="ico">${p.icon}</div>
+      <div>
+        <div class="name">${p.name}</div>
+        <div class="unit">Precio por kilo</div>
+      </div>
+      <div class="price">${money(p.price)}</div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div class="qty">
+          <button aria-label="Restar" onclick="changeDraft('${p.id}',-1)">−</button>
+          <span id="draft-${p.id}">${draftQty[p.id]}</span>
+          <button aria-label="Sumar" onclick="changeDraft('${p.id}',1)">+</button>
+        </div>
+        <button class="add-btn" onclick="addToCart('${p.id}')">Agregar</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function changeDraft(id, delta){
+  draftQty[id] = Math.max(1, draftQty[id] + delta);
+  document.getElementById('draft-'+id).textContent = draftQty[id];
+}
+
+function addToCart(id){
+  cart[id] = (cart[id]||0) + draftQty[id];
+  draftQty[id] = 1;
+  renderCatalog();
+  renderCart();
+  openCart();
+}
+
+function removeFromCart(id){
+  delete cart[id];
+  renderCart();
+}
+
+function renderCart(){
+  const ids = Object.keys(cart);
+  const count = ids.reduce((s,id)=> s + cart[id], 0);
+  document.getElementById('cartCount').textContent = count;
+  document.getElementById('fabCount').textContent = count;
+
+  const itemsEl = document.getElementById('cartItems');
+  if(ids.length === 0){
+    itemsEl.innerHTML = '<p class="empty-msg">Aún no has agregado productos.</p>';
+  } else {
+    itemsEl.innerHTML = ids.map(id=>{
+      const p = PRODUCTS.find(x=>x.id===id);
+      return `<div class="cart-row">
+        <span>${p.icon} ${p.name} × ${cart[id]} kg</span>
+        <span style="display:flex;align-items:center;gap:8px;">
+          ${money(p.price*cart[id])}
+          <button class="rm" onclick="removeFromCart('${id}')">quitar</button>
+        </span>
+      </div>`;
+    }).join('');
+  }
+  const total = ids.reduce((s,id)=>{
+    const p = PRODUCTS.find(x=>x.id===id);
+    return s + p.price*cart[id];
+  },0);
+  document.getElementById('cartTotal').textContent = money(total);
+  document.getElementById('checkoutBtn').disabled = ids.length===0;
+}
+
+function renderGallery(){
+  renderTabs('galTabs', GALLERY, 'todos', cat=>{ galleryFilter = cat; renderGalleryGrid(); });
+  renderGalleryGrid();
+}
+let galleryFilter = 'todos';
+function renderGalleryGrid(){
+  document.getElementById('galleryGrid').innerHTML = GALLERY.map(g => `
+    <div class="g-card ${galleryFilter!=='todos' && g.cat!==galleryFilter ? 'hidden':''}">
+      <span>${g.icon}</span>${g.name}
+    </div>
+  `).join('');
+  // re-highlight active tab
+  document.querySelectorAll('#galTabs button').forEach(b=>{
+    b.classList.toggle('active', b.dataset.cat===galleryFilter);
+  });
+}
+
+// Cart drawer open/close
+const drawer = document.getElementById('cartDrawer');
+const overlay = document.getElementById('overlay');
+function openCart(){ drawer.classList.add('open'); overlay.classList.add('open'); }
+function closeCartFn(){ drawer.classList.remove('open'); overlay.classList.remove('open'); }
+document.getElementById('cartBtn').addEventListener('click', openCart);
+document.getElementById('cartFab').addEventListener('click', openCart);
+document.getElementById('closeCart').addEventListener('click', closeCartFn);
+overlay.addEventListener('click', closeCartFn);
+
+// WhatsApp checkout
+document.getElementById('checkoutBtn').addEventListener('click', ()=>{
+  const ids = Object.keys(cart);
+  if(ids.length===0) return;
+  let lines = ['Hola Agromovex, quiero hacer este pedido:'];
+  let total = 0;
+  ids.forEach(id=>{
+    const p = PRODUCTS.find(x=>x.id===id);
+    const sub = p.price*cart[id];
+    total += sub;
+    lines.push(`- ${p.name}: ${cart[id]} kg (${money(sub)})`);
+  });
+  lines.push(`Total: ${money(total)}`);
+  const msg = encodeURIComponent(lines.join('\n'));
+  window.open(`https://wa.me/573172523383?text=${msg}`, '_blank');
+});
+
+// Mobile nav
+document.getElementById('navToggle').addEventListener('click', ()=>{
+  document.getElementById('navLinks').classList.toggle('open');
+});
+document.querySelectorAll('.navlinks a').forEach(a=>{
+  a.addEventListener('click', ()=> document.getElementById('navLinks').classList.remove('open'));
+});
+
+// Contact form validation (client-side only, in-memory)
+const form = document.getElementById('contactForm');
+const fields = [
+  {id:'nombre', err:'errNombre', msg:'Escribe tu nombre (mínimo 2 letras).'},
+  {id:'email',  err:'errEmail',  msg:'Escribe un correo válido.'},
+  {id:'mensaje',err:'errMensaje',msg:'Cuéntanos brevemente qué necesitas.'},
+];
+fields.forEach(f=>{
+  document.getElementById(f.id).addEventListener('blur', e=>{
+    e.target.dataset.touched = 'true';
+    document.getElementById(f.err).textContent = e.target.checkValidity() ? '' : f.msg;
+  });
+});
+form.addEventListener('submit', e=>{
+  e.preventDefault();
+  let valid = true;
+  fields.forEach(f=>{
+    const el = document.getElementById(f.id);
+    el.dataset.touched = 'true';
+    const ok = el.checkValidity();
+    document.getElementById(f.err).textContent = ok ? '' : f.msg;
+    if(!ok) valid = false;
+  });
+  if(!valid) return;
+  document.getElementById('formOk').style.display = 'block';
+  form.reset();
+  fields.forEach(f => document.getElementById(f.err).textContent = '');
+});
+
+renderCatalog();
+renderCart();
+renderGallery();
+</script>
+</body>
+</html>
